@@ -1,0 +1,100 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f1f6fc;
+  margin: 0;
+  padding: 0;
+}
+.headerbar {
+  background: #2366a8;
+  color: #fff;
+  padding: 18px 0 15px 28px;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 2px 6px 0 rgba(40,102,168,0.06);
+}
+.container {
+  max-width: 740px;
+  margin: 36px auto;
+  padding: 18px 32px 32px 32px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 18px 0 rgba(62,113,206,0.12);
+}
+.card-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+.card {
+  background: #f6fbff;
+  border-radius: 10px;
+  padding: 18px 16px;
+  box-shadow: 0 1px 8px 0 rgba(40,102,168,0.06);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.card.riwayat {
+  background: #fdf2f2;
+  color: #bbb;
+  border: 1px solid #ffdede;
+}
+.card.aktif { border-left: 5px solid #2366a8;}
+.card.riwayat { border-left:5px solid #fd5353;}
+.status-badge {
+  display: inline-block; background:#e7faeb;color:#25a244;
+  padding: 3px 14px; border-radius:16px; font-size:14px; margin-right:6px;
+  font-weight:600;
+}
+.status-riwayat { background:#fbe9ee; color:#a94442;}
+.icon {font-size:16px; margin-right:7px;}
+ul { padding-left: 18px;}
+li { margin-bottom:6px;}
+a { color: #2366a8; text-decoration:none;}
+a:hover { text-decoration:underline;}
+form { margin: 24px 0;}
+input, select {
+  padding: 9px;
+  width: 98%;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  border: 1px solid #c1d3ec;
+  font-size:15px;
+}
+button {
+  background: #2366a8;
+  color: #fff;
+  padding: 9px 22px;
+  border: none;
+  border-radius: 5px;
+  font-size: 17px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #184b73;
+}
+.footer {
+  text-align:center;
+  color:#3d4a6a;
+  font-size:14px;
+  margin:28px 0 25px 0;
+}
+@media (max-width: 650px) {
+  .card-list { grid-template-columns: 1fr; }
+  .container { padding:17px 8px 24px 8px;}
+}
+.msg-success, .msg-error {
+  padding: 9px 15px; border-radius: 7px; margin-bottom: 11px; font-size: 15px;
+}
+.msg-success { background: #e7faeb; color: #25a244; }
+.msg-error { background: #fbe9ee; color: #b5203e; }
+label {
+  font-size:14px;
+  font-weight:500;
+  margin-bottom:3px;
+  display:block;
+  color:#2366a8;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Respon Dosen - {{ kelas.nama }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="headerbar">Respon Dosen</div>
+<div class="container card aktif">
+<h2>{{ kelas.nama }} ({{ kelas.matkul }})</h2>
+<p>Jadwal awal: {{ kelas.jadwal_dt|indo }} | Pertemuan: {{ kelas.pertemuan }}</p>
+<form method="POST">
+    <label>Status Kehadiran:</label>
+    <select name="status" id="status" onchange="handleStatus()">
+        <option value="Setuju" {% if kelas.status_dosen=='Setuju' %}selected{% endif %}>Setuju</option>
+        <option value="Tolak" {% if kelas.status_dosen=='Tolak' %}selected{% endif %}>Tolak</option>
+    </select>
+    <br>
+    <label>Mode:</label>
+    <select name="mode" id="mode" {% if kelas.status_dosen=='Tolak' %}disabled{% endif %}>
+        <option value="Online">Online</option>
+        <option value="Offline">Offline</option>
+        <option value="Hybrid">Hybrid</option>
+    </select><br>
+    <label>Waktu & Tanggal Baru:</label>
+    <input type="datetime-local" name="jadwal_dosen" id="jadwal_dosen" {% if kelas.status_dosen=='Tolak' %}disabled{% endif %}><br>
+    <label>Komentar/Usulan:</label>
+    <input name="komentar" placeholder="Komentar tambahan"><br>
+    <button type="submit">Submit</button>
+</form>
+<script>
+function handleStatus() {
+    var s = document.getElementById('status').value;
+    document.getElementById('mode').disabled = (s === 'Tolak');
+    document.getElementById('jadwal_dosen').disabled = (s === 'Tolak');
+}
+window.onload = handleStatus;
+</script>
+<h3>Riwayat Komentar:</h3>
+<ul>
+    {% for k in kelas.komentar %}
+      <li><b>{{ k.pengirim }}</b>: {{ k.pesan }} ({{ k.waktu|komentar_indo }})</li>
+    {% endfor %}
+</ul>
+<p>Kembali ke: <a href="{{ url_for('dashboard') }}">Dashboard</a></p>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="msg-success">{% for msg in messages %}{{ msg }}<br>{% endfor %}</div>
+  {% endif %}
+{% endwith %}
+</div>
+<div class="footer">© Sistem Manajemen Kelas Kampus</div>
+</body>
+</html>

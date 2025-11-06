@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="headerbar">Dashboard Kelas Digital</div>
+<div class="container">
+<h2>Hai, {{ user.username }}</h2>
+<div style="margin-bottom:18px;">
+  <a href="{{ url_for('kelas_form') }}"><button>➕ Buat Kelas Baru</button></a>
+  <a href="{{ url_for('logout') }}" style="float:right;">Logout</a>
+</div>
+<h3><span class="icon">📚</span>Kelas Aktif Anda</h3>
+<div class="card-list">
+{% for kelas in all_kelas %}
+    {% if kelas.status == 'aktif' %}
+    <div class="card aktif">
+        <div>
+          <span class="status-badge">Aktif</span>
+          <b>{{ kelas.nama }}</b>
+        </div>
+        <div>
+            {{ kelas.matkul }}<br>
+            <span class="icon">⏰</span> <b>{{ kelas.jadwal_dt|indo }}</b><br>
+            <span class="icon">🔄</span>Pertemuan ke-{{ kelas.pertemuan }}
+        </div>
+        <div>
+          <a href="{{ url_for('kelas_detail', kelas_id=kelas.id) }}">Detail</a>
+            {% if kelas.creator == user.username and kelas.status == 'aktif' %}
+               | <a href="{{ host }}/kelas/dosen/{{kelas.token_dosen}}" target="_blank" style="color:#2366a8;">
+                    Link Dosen
+                 </a>
+            {% endif %}
+            {% if kelas not in user.kelas_diikuti %}
+               | <a href="{{ url_for('join_kelas', kelas_id=kelas.id) }}">Ikuti</a>
+            {% endif %}
+        </div>
+        {% if kelas.creator == user.username and kelas.status == 'aktif' %}
+          <div style="font-size:13px;word-break:break-all;">
+            <b>Copas Link Dosen:</b><br>
+            <a href="{{ host }}/kelas/dosen/{{kelas.token_dosen}}" style="color:#2366a8;" target="_blank">
+                {{ host }}/kelas/dosen/{{kelas.token_dosen}}
+            </a>
+          </div>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+<h3><span class="icon">🗂️</span>Riwayat Kelas</h3>
+<div class="card-list">
+{% for kelas in all_kelas %}
+    {% if kelas.status == 'selesai' %}
+    <div class="card riwayat">
+        <div>
+          <span class="status-badge status-riwayat">Riwayat</span>
+          <b>{{ kelas.nama }}</b>
+        </div>
+        <div>
+            {{ kelas.matkul }}<br>
+            <span class="icon">⏰</span> <b>{{ kelas.jadwal_dt|indo }}</b><br>
+            <span class="icon">🔄</span>Pertemuan ke-{{ kelas.pertemuan }}
+        </div>
+        <div>
+          <a href="{{ url_for('kelas_detail', kelas_id=kelas.id) }}">Detail</a>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+{% for msg in get_flashed_messages(category_filter=["msg-success"]) %}
+  <div class="msg-success">{{ msg | safe }}</div>
+{% endfor %}
+{% for msg in get_flashed_messages(category_filter=["msg-error"]) %}
+  <div class="msg-error">{{ msg | safe }}</div>
+{% endfor %}
+</div>
+<div class="footer">© Sistem Manajemen Kelas Kampus</div>
+</body>
+</html>

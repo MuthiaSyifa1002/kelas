@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detail Kelas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="headerbar">Detail Kelas</div>
+<div class="container card aktif">
+  <div>
+    <span class="status-badge">{{ 'Aktif' if kelas.status=='aktif' else 'Riwayat' }}</span>
+    <b>{{ kelas.nama }} ({{ kelas.matkul }})</b>
+  </div>
+  <div>
+    Jadwal Awal: <span class="icon">⏰</span> <b>{{ kelas.jadwal_dt|indo }}</b><br>
+    Pertemuan: {{ kelas.pertemuan }}<br>
+    Status Dosen: <span class="status-badge" style="background:#faf7d8; color:#705e00;">
+      {{ kelas.status_dosen or '-' }}</span>
+    {% if kelas.mode_dosen %}
+      | Mode: <span class="status-badge" style="background:#c8f4fc;color:#0b759e;">
+        {{ kelas.mode_dosen }}</span>
+    {% endif %}
+    {% if kelas.dosen_jadwal %}
+      | Jadwal Baru Dosen: <span class="icon">⏰</span> <b>{{ kelas.dosen_jadwal|indo }}</b>
+    {% endif %}
+  </div>
+  <h3>Anggota Kelas:</h3>
+  <ul>
+    {% for anggota in kelas.anggota %}
+      <li>{{ anggota.username }}</li>
+    {% endfor %}
+  </ul>
+  {% if kelas.creator == user.username and kelas.status == 'aktif' %}
+    <b>Link Dosen:</b>
+    <a href="{{ host }}/kelas/dosen/{{kelas.token_dosen}}" target="_blank" style="color:#2366a8;">
+      {{ host }}/kelas/dosen/{{kelas.token_dosen}}
+    </a>
+  {% endif %}
+  <h3>Riwayat Komentar/Diskusi Jadwal:</h3>
+  <ul>
+    {% for k in kelas.komentar %}
+      <li style="font-size:14px;">
+        <b>{{ k.pengirim }}</b>: {{ k.pesan }} 
+        <span style="color:#aaa;">({{ k.waktu|komentar_indo }})</span>
+      </li>
+    {% endfor %}
+  </ul>
+  <form method="POST" action="{{ url_for('komentar_route', kelas_id=kelas.id) }}">
+    <label>Komentar/Usulan:</label>
+    <input name="pesan" placeholder="Tulis komentar/usulan..." required>
+    <button type="submit">Kirim</button>
+  </form>
+  <a href="{{ url_for('dashboard') }}">Kembali ke Dashboard</a>
+</div>
+<div class="footer">© Sistem Manajemen Kelas Kampus</div>
+</body>
+</html>

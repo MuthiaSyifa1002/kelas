@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buat Kelas Baru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="headerbar">Tambah Kelas</div>
+<div class="container card aktif">
+<h2>Buat Kelas Baru</h2>
+<form method="POST">
+    <label>Nama Kelas</label>
+    <input name="nama" placeholder="Nama Kelas" required>
+    <label>Mata Kuliah</label>
+    <input name="matkul" placeholder="Mata Kuliah" required>
+    <label>Jam & Tanggal Awal Kelas</label>
+    <input type="datetime-local" name="jadwal_dt" required>
+    <label>Pertemuan Ke-</label>
+    <input name="pertemuan" placeholder="Pertemuan Ke-" required>
+    <button type="submit">Buat Kelas</button>
+</form>
+<a href="{{ url_for('dashboard') }}">Kembali</a>
+</div>
+<div class="footer">© Sistem Manajemen Kelas Kampus</div>
+</body>
+</html>
